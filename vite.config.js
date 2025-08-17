@@ -9,7 +9,7 @@ export default defineConfig({
     sourcemap: true
   },
   server: {
-    port: 3000,
+    port: 8080,
     host: true
   }
 })
