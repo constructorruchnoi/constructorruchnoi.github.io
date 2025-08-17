@@ -1193,6 +1193,888 @@ const generateContentElementHTML = (element) => {
         </div>
       `;
 
+    case 'gradient-text':
+      const gradientDirection = elementData.gradientDirection || 'to right';
+      const gradientColor1 = elementData.gradientColor1 || '#ff6b6b';
+      const gradientColor2 = elementData.gradientColor2 || '#4ecdc4';
+      const backgroundClip = elementData.backgroundClip !== false;
+      
+      return `
+        <div id="${elementId}" class="content-element gradient-text" style="text-align: ${elementData.textAlign || 'center'}; margin: 2rem 0;">
+          <h2 style="
+            background: linear-gradient(${gradientDirection}, ${gradientColor1}, ${gradientColor2});
+            ${backgroundClip ? '-webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;' : ''}
+            font-size: ${elementData.fontSize || 48}px;
+            font-weight: ${elementData.fontWeight || 'bold'};
+            font-family: ${elementData.fontFamily || 'inherit'};
+            margin: 0;
+            ${!backgroundClip ? `color: ${gradientColor1};` : ''}
+          ">${elementData.text || 'Градиентный текст'}</h2>
+        </div>
+      `;
+
+    case 'animated-counter':
+      return `
+        <div id="${elementId}" class="content-element animated-counter" style="
+          text-align: ${elementData.textAlign || 'center'};
+          padding: ${elementData.padding || 20}px;
+          margin: 2rem 0;
+        ">
+          ${elementData.title ? `
+            <h3 style="
+              color: ${elementData.titleColor || '#333333'};
+              font-size: ${elementData.titleFontSize || 24}px;
+              margin-bottom: 1rem;
+            ">${elementData.title}</h3>
+          ` : ''}
+          <div class="counter" 
+               data-start="${elementData.startValue || 0}" 
+               data-end="${elementData.endValue || 100}" 
+               data-duration="${elementData.duration || 2000}" 
+               style="
+                 color: ${elementData.numberColor || '#1976d2'};
+                 font-size: ${elementData.numberFontSize || 48}px;
+                 font-weight: ${elementData.numberFontWeight || 'bold'};
+                 font-family: ${elementData.fontFamily || 'inherit'};
+               ">${elementData.startValue || 0}</div>
+          ${elementData.suffix ? `
+            <span style="
+              color: ${elementData.suffixColor || '#666666'};
+              font-size: ${elementData.suffixFontSize || 16}px;
+              margin-left: 8px;
+            ">${elementData.suffix}</span>
+          ` : ''}
+          ${elementData.description ? `
+            <p style="
+              color: ${elementData.descriptionColor || '#666666'};
+              font-size: ${elementData.descriptionFontSize || 16}px;
+              margin-top: 1rem;
+            ">${elementData.description}</p>
+          ` : ''}
+        </div>
+      `;
+
+    case 'typewriter-text':
+      const texts = elementData.texts || ['Эффект печатной машинки'];
+      return `
+        <div id="${elementId}" class="content-element typewriter" 
+             data-texts='${JSON.stringify(texts)}'
+             data-speed="${elementData.speed || 150}"
+             data-pause="${elementData.pauseTime || 2000}"
+             data-repeat="${elementData.repeat !== false}"
+             style="
+               text-align: ${elementData.textAlign || 'center'};
+               margin: 2rem 0;
+               padding: ${elementData.padding || 20}px;
+             ">
+          <div class="typewriter-container">
+            <span class="typewriter-text-content" style="
+              color: ${elementData.textColor || '#333333'};
+              font-size: ${elementData.fontSize || 32}px;
+              font-weight: ${elementData.fontWeight || 'normal'};
+              font-family: ${elementData.fontFamily || 'inherit'};
+            "></span>
+            <span class="typewriter-cursor" style="
+              color: ${elementData.cursorColor || '#333333'};
+              font-size: ${elementData.fontSize || 32}px;
+              font-weight: ${elementData.fontWeight || 'normal'};
+            ">|</span>
+          </div>
+        </div>
+      `;
+
+    case 'highlight-text':
+      return `
+        <div id="${elementId}" class="content-element highlight-text" style="
+          text-align: ${elementData.textAlign || 'center'};
+          margin: 2rem 0;
+          padding: ${elementData.padding || 20}px;
+        ">
+          <p style="
+            color: ${elementData.textColor || '#333333'};
+            font-size: ${elementData.fontSize || 18}px;
+            font-family: ${elementData.fontFamily || 'inherit'};
+            line-height: 1.6;
+          ">
+            ${(elementData.text || 'Это текст с выделенными словами').replace(
+              /\*\*(.*?)\*\*/g, 
+              `<mark style="
+                background-color: ${elementData.highlightColor || '#ffeb3b'};
+                color: ${elementData.highlightTextColor || '#333333'};
+                padding: 2px 4px;
+                border-radius: 3px;
+              ">$1</mark>`
+            )}
+          </p>
+        </div>
+      `;
+
+    case 'testimonial-card':
+      return `
+        <div id="${elementId}" class="content-element testimonial-card" style="
+          max-width: 600px;
+          margin: 2rem auto;
+          padding: 2rem;
+          background: ${elementData.backgroundColor || '#ffffff'};
+          border-radius: 12px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+          text-align: center;
+        ">
+          ${elementData.showQuotes !== false ? `
+            <div style="
+              font-size: 48px;
+              color: ${elementData.quoteColor || '#e0e0e0'};
+              line-height: 1;
+              margin-bottom: 1rem;
+            ">"</div>
+          ` : ''}
+          <blockquote style="
+            color: ${elementData.textColor || '#333333'};
+            font-size: ${elementData.textFontSize || 18}px;
+            font-style: italic;
+            margin: 0 0 1.5rem 0;
+            line-height: 1.6;
+          ">${elementData.text || 'Отличный отзыв о нашей работе. Очень довольны результатом!'}</blockquote>
+          <div style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+          ">
+            ${elementData.avatar ? `
+              <img src="${elementData.avatar}" alt="${elementData.name}" style="
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                object-fit: cover;
+              ">
+            ` : ''}
+            <div style="text-align: left;">
+              <div style="
+                color: ${elementData.nameColor || '#333333'};
+                font-weight: bold;
+                font-size: ${elementData.nameFontSize || 16}px;
+              ">${elementData.name || 'Имя клиента'}</div>
+              ${elementData.position ? `
+                <div style="
+                  color: ${elementData.positionColor || '#666666'};
+                  font-size: ${elementData.positionFontSize || 14}px;
+                ">${elementData.position}</div>
+              ` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+
+    case 'faq-section':
+      const faqItems = elementData.items || [
+        { question: 'Вопрос 1', answer: 'Ответ на первый вопрос' },
+        { question: 'Вопрос 2', answer: 'Ответ на второй вопрос' }
+      ];
+      
+      return `
+        <div id="${elementId}" class="content-element faq-section" style="
+          max-width: 800px;
+          margin: 2rem auto;
+          padding: 2rem;
+        ">
+          ${elementData.title ? `
+            <h3 style="
+              text-align: center;
+              color: ${elementData.titleColor || '#333333'};
+              font-size: ${elementData.titleFontSize || 32}px;
+              margin-bottom: 2rem;
+            ">${elementData.title}</h3>
+          ` : ''}
+          ${faqItems.map((item, index) => `
+            <details style="
+              margin-bottom: 1rem;
+              border: 1px solid ${elementData.borderColor || '#e0e0e0'};
+              border-radius: 8px;
+              overflow: hidden;
+            ">
+              <summary style="
+                padding: 1rem;
+                background: ${elementData.questionBgColor || '#f5f5f5'};
+                color: ${elementData.questionColor || '#333333'};
+                font-weight: ${elementData.questionFontWeight || 'bold'};
+                cursor: pointer;
+                outline: none;
+              ">${item.question}</summary>
+              <div style="
+                padding: 1rem;
+                background: ${elementData.answerBgColor || '#ffffff'};
+                color: ${elementData.answerColor || '#666666'};
+                line-height: 1.6;
+              ">${item.answer}</div>
+            </details>
+          `).join('')}
+        </div>
+      `;
+
+    case 'basic-card':
+      return `
+        <div id="${elementId}" class="content-element basic-card" style="
+          max-width: 400px;
+          margin: 2rem auto;
+          padding: 2rem;
+          background: ${elementData.backgroundColor || '#ffffff'};
+          border: 1px solid ${elementData.borderColor || '#e0e0e0'};
+          border-radius: ${elementData.borderRadius || 8}px;
+          box-shadow: ${elementData.showShadow !== false ? '0 2px 8px rgba(0,0,0,0.1)' : 'none'};
+          text-align: ${elementData.textAlign || 'center'};
+        ">
+          ${elementData.title ? `
+            <h3 style="
+              color: ${elementData.titleColor || '#333333'};
+              font-size: ${elementData.titleFontSize || 24}px;
+              margin-bottom: 1rem;
+            ">${elementData.title}</h3>
+          ` : ''}
+          ${elementData.content ? `
+            <p style="
+              color: ${elementData.contentColor || '#666666'};
+              font-size: ${elementData.contentFontSize || 16}px;
+              line-height: 1.6;
+              margin-bottom: ${elementData.buttonText ? '1.5rem' : '0'};
+            ">${elementData.content}</p>
+          ` : ''}
+          ${elementData.buttonText ? `
+            <a href="${elementData.buttonUrl || '#'}" style="
+              display: inline-block;
+              padding: 12px 24px;
+              background: ${elementData.buttonBgColor || '#1976d2'};
+              color: ${elementData.buttonTextColor || '#ffffff'};
+              text-decoration: none;
+              border-radius: 6px;
+              font-weight: 500;
+              transition: background-color 0.3s;
+            " onmouseover="this.style.backgroundColor='${elementData.buttonHoverColor || '#1565c0'}'" 
+               onmouseout="this.style.backgroundColor='${elementData.buttonBgColor || '#1976d2'}'">${elementData.buttonText}</a>
+          ` : ''}
+        </div>
+      `;
+
+    case 'image-card':
+      return `
+        <div id="${elementId}" class="content-element image-card" style="
+          max-width: 400px;
+          margin: 2rem auto;
+          background: ${elementData.backgroundColor || '#ffffff'};
+          border: 1px solid ${elementData.borderColor || '#e0e0e0'};
+          border-radius: ${elementData.borderRadius || 8}px;
+          overflow: hidden;
+          box-shadow: ${elementData.showShadow !== false ? '0 2px 8px rgba(0,0,0,0.1)' : 'none'};
+        ">
+          ${elementData.image ? `
+            <img src="${elementData.image}" alt="${elementData.title || 'Card image'}" style="
+              width: 100%;
+              height: ${elementData.imageHeight || 200}px;
+              object-fit: cover;
+            ">
+          ` : `
+            <div style="
+              height: ${elementData.imageHeight || 200}px;
+              background: #f5f5f5;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: #999;
+              font-style: italic;
+            ">📷 Изображение</div>
+          `}
+          <div style="padding: 1.5rem;">
+            ${elementData.title ? `
+              <h3 style="
+                color: ${elementData.titleColor || '#333333'};
+                font-size: ${elementData.titleFontSize || 20}px;
+                margin-bottom: 1rem;
+              ">${elementData.title}</h3>
+            ` : ''}
+            ${elementData.content ? `
+              <p style="
+                color: ${elementData.contentColor || '#666666'};
+                font-size: ${elementData.contentFontSize || 14}px;
+                line-height: 1.6;
+                margin-bottom: ${elementData.buttonText ? '1.5rem' : '0'};
+              ">${elementData.content}</p>
+            ` : ''}
+            ${elementData.buttonText ? `
+              <a href="${elementData.buttonUrl || '#'}" style="
+                display: inline-block;
+                padding: 10px 20px;
+                background: ${elementData.buttonBgColor || '#1976d2'};
+                color: ${elementData.buttonTextColor || '#ffffff'};
+                text-decoration: none;
+                border-radius: 6px;
+                font-weight: 500;
+                font-size: 14px;
+                transition: background-color 0.3s;
+              " onmouseover="this.style.backgroundColor='${elementData.buttonHoverColor || '#1565c0'}'" 
+                 onmouseout="this.style.backgroundColor='${elementData.buttonBgColor || '#1976d2'}'">${elementData.buttonText}</a>
+            ` : ''}
+          </div>
+        </div>
+      `;
+
+    case 'multiple-cards':
+      const cards = elementData.cards || [
+        { title: 'Карточка 1', content: 'Описание первой карточки' },
+        { title: 'Карточка 2', content: 'Описание второй карточки' },
+        { title: 'Карточка 3', content: 'Описание третьей карточки' }
+      ];
+      
+      return `
+        <div id="${elementId}" class="content-element multiple-cards" style="
+          margin: 2rem 0;
+          padding: 2rem;
+        ">
+          ${elementData.title ? `
+            <h3 style="
+              text-align: center;
+              color: ${elementData.titleColor || '#333333'};
+              font-size: ${elementData.titleFontSize || 32}px;
+              margin-bottom: 2rem;
+            ">${elementData.title}</h3>
+          ` : ''}
+          <div style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+          ">
+            ${cards.map(card => `
+              <div style="
+                background: ${elementData.cardBgColor || '#ffffff'};
+                border: 1px solid ${elementData.cardBorderColor || '#e0e0e0'};
+                border-radius: ${elementData.cardBorderRadius || 8}px;
+                padding: 1.5rem;
+                box-shadow: ${elementData.showShadow !== false ? '0 2px 8px rgba(0,0,0,0.1)' : 'none'};
+                text-align: ${elementData.textAlign || 'center'};
+                transition: transform 0.3s ease;
+              " onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
+                ${card.title ? `
+                  <h4 style="
+                    color: ${elementData.cardTitleColor || '#333333'};
+                    font-size: ${elementData.cardTitleFontSize || 20}px;
+                    margin-bottom: 1rem;
+                  ">${card.title}</h4>
+                ` : ''}
+                ${card.content ? `
+                  <p style="
+                    color: ${elementData.cardContentColor || '#666666'};
+                    font-size: ${elementData.cardContentFontSize || 14}px;
+                    line-height: 1.6;
+                  ">${card.content}</p>
+                ` : ''}
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+
+    case 'accordion':
+      const accordionItems = elementData.items || [
+        { title: 'Секция 1', content: 'Содержимое первой секции' },
+        { title: 'Секция 2', content: 'Содержимое второй секции' }
+      ];
+      
+      return `
+        <div id="${elementId}" class="content-element accordion" style="
+          max-width: 800px;
+          margin: 2rem auto;
+          border: 1px solid ${elementData.borderColor || '#e0e0e0'};
+          border-radius: 8px;
+          overflow: hidden;
+        ">
+          ${accordionItems.map((item, index) => `
+            <details ${elementData.allowMultiple === false && index === 0 ? 'open' : ''} style="
+              border-bottom: ${index < accordionItems.length - 1 ? `1px solid ${elementData.borderColor || '#e0e0e0'}` : 'none'};
+            ">
+              <summary style="
+                padding: 1rem 1.5rem;
+                background: ${elementData.headerBgColor || '#f8f9fa'};
+                color: ${elementData.headerTextColor || '#333333'};
+                font-weight: ${elementData.headerFontWeight || 'bold'};
+                cursor: pointer;
+                outline: none;
+                list-style: none;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              ">
+                <span>${item.title}</span>
+                <span style="transition: transform 0.3s;">▼</span>
+              </summary>
+              <div style="
+                padding: 1.5rem;
+                background: ${elementData.contentBgColor || '#ffffff'};
+                color: ${elementData.contentTextColor || '#666666'};
+                line-height: 1.6;
+              ">${item.content}</div>
+            </details>
+          `).join('')}
+        </div>
+        <style>
+          details[open] summary span:last-child {
+            transform: rotate(180deg);
+          }
+        </style>
+      `;
+
+    case 'qr-code':
+      const qrValue = elementData.value || elementData.text || 'https://example.com';
+      return `
+        <div id="${elementId}" class="content-element qr-code" style="
+          text-align: center;
+          padding: 2rem;
+          margin: 2rem 0;
+        ">
+          ${elementData.title ? `
+            <h3 style="
+              color: ${elementData.titleColor || '#333333'};
+              font-size: ${elementData.titleFontSize || 24}px;
+              margin-bottom: 1rem;
+            ">${elementData.title}</h3>
+          ` : ''}
+          <div style="
+            display: inline-block;
+            padding: 1rem;
+            background: ${elementData.backgroundColor || '#ffffff'};
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+          ">
+            <div id="qr-${elementId}" style="
+              width: ${elementData.size || 200}px;
+              height: ${elementData.size || 200}px;
+              background: #f5f5f5;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: #666;
+            ">QR: ${qrValue}</div>
+          </div>
+          ${elementData.description ? `
+            <p style="
+              color: ${elementData.descriptionColor || '#666666'};
+              font-size: ${elementData.descriptionFontSize || 14}px;
+              margin-top: 1rem;
+              max-width: 300px;
+              margin-left: auto;
+              margin-right: auto;
+            ">${elementData.description}</p>
+          ` : ''}
+        </div>
+      `;
+
+    case 'rating':
+      const rating = Math.max(0, Math.min(5, elementData.rating || 4));
+      const maxStars = elementData.maxStars || 5;
+      
+      return `
+        <div id="${elementId}" class="content-element rating" style="
+          text-align: ${elementData.textAlign || 'center'};
+          padding: 1.5rem;
+          margin: 2rem 0;
+        ">
+          ${elementData.title ? `
+            <h3 style="
+              color: ${elementData.titleColor || '#333333'};
+              font-size: ${elementData.titleFontSize || 24}px;
+              margin-bottom: 1rem;
+            ">${elementData.title}</h3>
+          ` : ''}
+          <div style="
+            display: inline-flex;
+            gap: 4px;
+            margin-bottom: ${elementData.showValue || elementData.description ? '1rem' : '0'};
+          ">
+            ${Array.from({ length: maxStars }, (_, i) => `
+              <span style="
+                color: ${i < rating ? (elementData.activeColor || '#ffc107') : (elementData.inactiveColor || '#e0e0e0')};
+                font-size: ${elementData.size || 32}px;
+                cursor: ${elementData.interactive !== false ? 'pointer' : 'default'};
+              ">★</span>
+            `).join('')}
+          </div>
+          ${elementData.showValue !== false ? `
+            <div style="
+              color: ${elementData.valueColor || '#666666'};
+              font-size: ${elementData.valueFontSize || 18}px;
+              font-weight: bold;
+              margin-bottom: ${elementData.description ? '0.5rem' : '0'};
+            ">${rating.toFixed(1)} / ${maxStars}</div>
+          ` : ''}
+          ${elementData.description ? `
+            <p style="
+              color: ${elementData.descriptionColor || '#666666'};
+              font-size: ${elementData.descriptionFontSize || 14}px;
+              margin: 0;
+            ">${elementData.description}</p>
+          ` : ''}
+        </div>
+      `;
+
+    case 'progress-bars':
+      const progressItems = elementData.items || [
+        { label: 'Прогресс 1', value: 75, color: '#1976d2' },
+        { label: 'Прогресс 2', value: 90, color: '#4caf50' },
+        { label: 'Прогресс 3', value: 60, color: '#ff9800' }
+      ];
+      
+      return `
+        <div id="${elementId}" class="content-element progress-bars" style="
+          max-width: 600px;
+          margin: 2rem auto;
+          padding: 2rem;
+        ">
+          ${elementData.title ? `
+            <h3 style="
+              text-align: center;
+              color: ${elementData.titleColor || '#333333'};
+              font-size: ${elementData.titleFontSize || 24}px;
+              margin-bottom: 2rem;
+            ">${elementData.title}</h3>
+          ` : ''}
+          ${progressItems.map((item, index) => `
+            <div style="margin-bottom: ${index < progressItems.length - 1 ? '1.5rem' : '0'};">
+              <div style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 0.5rem;
+              ">
+                <span style="
+                  color: ${elementData.labelColor || '#333333'};
+                  font-size: ${elementData.labelFontSize || 16}px;
+                  font-weight: ${elementData.labelFontWeight || 'normal'};
+                ">${item.label}</span>
+                ${elementData.showValue !== false ? `
+                  <span style="
+                    color: ${elementData.valueColor || '#666666'};
+                    font-size: ${elementData.valueFontSize || 14}px;
+                  ">${item.value}%</span>
+                ` : ''}
+              </div>
+              <div style="
+                width: 100%;
+                height: ${elementData.barHeight || 8}px;
+                background: ${elementData.trackColor || '#e0e0e0'};
+                border-radius: ${elementData.borderRadius || 4}px;
+                overflow: hidden;
+              ">
+                <div style="
+                  height: 100%;
+                  width: ${Math.max(0, Math.min(100, item.value))}%;
+                  background: ${item.color || elementData.barColor || '#1976d2'};
+                  transition: width 0.8s ease;
+                  border-radius: ${elementData.borderRadius || 4}px;
+                "></div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+
+    case 'bar-chart':
+    case 'line-chart':
+    case 'pie-chart':
+    case 'area-chart':
+      const chartData = elementData.datasets || elementData.data || [
+        { label: 'Данные 1', values: [10, 20, 30, 40, 50] },
+        { label: 'Данные 2', values: [15, 25, 35, 45, 55] }
+      ];
+      const labels = elementData.labels || ['Янв', 'Фев', 'Мар', 'Апр', 'Май'];
+      
+      return `
+        <div id="${elementId}" class="content-element ${element.type}" style="
+          max-width: 800px;
+          margin: 2rem auto;
+          padding: 2rem;
+          background: ${elementData.backgroundColor || '#ffffff'};
+          border-radius: 8px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        ">
+          ${elementData.title ? `
+            <h3 style="
+              text-align: center;
+              color: ${elementData.titleColor || '#333333'};
+              font-size: ${elementData.titleFontSize || 24}px;
+              margin-bottom: 2rem;
+            ">${elementData.title}</h3>
+          ` : ''}
+          <div style="
+            height: ${elementData.height || 400}px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-style: italic;
+          ">
+            📊 График: ${element.type} <br>
+            Данные: ${chartData.length} серий, ${labels.length} точек
+          </div>
+          <script>
+            // Здесь должна быть инициализация графика с библиотекой Recharts
+            console.log('Chart data for ${elementId}:', ${JSON.stringify({ chartData, labels })});
+          </script>
+        </div>
+      `;
+
+    case 'chartjs-bar':
+    case 'chartjs-doughnut':
+      const chartJSData = elementData.datasets || [
+        { label: 'Набор данных 1', data: [10, 20, 30, 40, 50], backgroundColor: '#1976d2' }
+      ];
+      const chartJSLabels = elementData.labels || ['Янв', 'Фев', 'Мар', 'Апр', 'Май'];
+      
+      return `
+        <div id="${elementId}" class="content-element ${element.type}" style="
+          max-width: 800px;
+          margin: 2rem auto;
+          padding: 2rem;
+          background: ${elementData.backgroundColor || '#ffffff'};
+          border-radius: 8px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        ">
+          ${elementData.title ? `
+            <h3 style="
+              text-align: center;
+              color: ${elementData.titleColor || '#333333'};
+              font-size: ${elementData.titleFontSize || 24}px;
+              margin-bottom: 2rem;
+            ">${elementData.title}</h3>
+          ` : ''}
+          <canvas id="chart-${elementId}" style="max-height: ${elementData.height || 400}px;"></canvas>
+          <script>
+            // Chart.js инициализация
+            if (typeof Chart !== 'undefined') {
+              const ctx = document.getElementById('chart-${elementId}');
+              if (ctx) {
+                new Chart(ctx, {
+                  type: '${element.type === 'chartjs-bar' ? 'bar' : 'doughnut'}',
+                  data: {
+                    labels: ${JSON.stringify(chartJSLabels)},
+                    datasets: ${JSON.stringify(chartJSData)}
+                  },
+                  options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                  }
+                });
+              }
+            }
+          </script>
+        </div>
+      `;
+
+    case 'apexcharts-line':
+      const apexData = elementData.series || [
+        { name: 'Серия 1', data: [10, 20, 30, 40, 50] }
+      ];
+      const apexCategories = elementData.categories || ['Янв', 'Фев', 'Мар', 'Апр', 'Май'];
+      
+      return `
+        <div id="${elementId}" class="content-element apexcharts-line" style="
+          max-width: 800px;
+          margin: 2rem auto;
+          padding: 2rem;
+          background: ${elementData.backgroundColor || '#ffffff'};
+          border-radius: 8px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        ">
+          ${elementData.title ? `
+            <h3 style="
+              text-align: center;
+              color: ${elementData.titleColor || '#333333'};
+              font-size: ${elementData.titleFontSize || 24}px;
+              margin-bottom: 2rem;
+            ">${elementData.title}</h3>
+          ` : ''}
+          <div id="apex-${elementId}" style="height: ${elementData.height || 400}px;"></div>
+          <script>
+            // ApexCharts инициализация
+            if (typeof ApexCharts !== 'undefined') {
+              const options = {
+                chart: {
+                  type: 'line',
+                  height: ${elementData.height || 400}
+                },
+                series: ${JSON.stringify(apexData)},
+                xaxis: {
+                  categories: ${JSON.stringify(apexCategories)}
+                }
+              };
+              const chart = new ApexCharts(document.querySelector('#apex-${elementId}'), options);
+              chart.render();
+            }
+          </script>
+        </div>
+      `;
+
+    case 'advanced-contact-form':
+      const formFields = elementData.fields || [
+        { type: 'text', name: 'name', label: 'Имя', required: true },
+        { type: 'email', name: 'email', label: 'Email', required: true },
+        { type: 'textarea', name: 'message', label: 'Сообщение', required: true }
+      ];
+      
+      return `
+        <div id="${elementId}" class="content-element advanced-contact-form" style="
+          max-width: 600px;
+          margin: 2rem auto;
+          padding: 2rem;
+          background: ${elementData.backgroundColor || '#ffffff'};
+          border-radius: 8px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        ">
+          ${elementData.title ? `
+            <h3 style="
+              text-align: center;
+              color: ${elementData.titleColor || '#333333'};
+              font-size: ${elementData.titleFontSize || 28}px;
+              margin-bottom: 2rem;
+            ">${elementData.title}</h3>
+          ` : ''}
+          <form action="${elementData.action || '/submit'}" method="POST" style="
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+          ">
+            ${formFields.map(field => `
+              <div>
+                <label style="
+                  display: block;
+                  color: ${elementData.labelColor || '#333333'};
+                  font-weight: 500;
+                  margin-bottom: 0.5rem;
+                ">${field.label}${field.required ? ' *' : ''}</label>
+                ${field.type === 'textarea' ? `
+                  <textarea
+                    name="${field.name}"
+                    ${field.required ? 'required' : ''}
+                    rows="4"
+                    style="
+                      width: 100%;
+                      padding: 12px;
+                      border: 1px solid ${elementData.borderColor || '#ddd'};
+                      border-radius: 6px;
+                      font-family: inherit;
+                      font-size: 14px;
+                      resize: vertical;
+                    "
+                    placeholder="${field.placeholder || ''}"></textarea>
+                ` : `
+                  <input
+                    type="${field.type}"
+                    name="${field.name}"
+                    ${field.required ? 'required' : ''}
+                    style="
+                      width: 100%;
+                      padding: 12px;
+                      border: 1px solid ${elementData.borderColor || '#ddd'};
+                      border-radius: 6px;
+                      font-family: inherit;
+                      font-size: 14px;
+                    "
+                    placeholder="${field.placeholder || ''}"
+                  >
+                `}
+              </div>
+            `).join('')}
+            <button type="submit" style="
+              padding: 14px 28px;
+              background: ${elementData.buttonBgColor || '#1976d2'};
+              color: ${elementData.buttonTextColor || '#ffffff'};
+              border: none;
+              border-radius: 6px;
+              font-size: 16px;
+              font-weight: 500;
+              cursor: pointer;
+              transition: background-color 0.3s;
+            " onmouseover="this.style.backgroundColor='${elementData.buttonHoverColor || '#1565c0'}'" 
+               onmouseout="this.style.backgroundColor='${elementData.buttonBgColor || '#1976d2'}'"
+            >${elementData.buttonText || 'Отправить'}</button>
+          </form>
+        </div>
+      `;
+
+    case 'cta-section':
+      return `
+        <div id="${elementId}" class="content-element cta-section" style="
+          text-align: center;
+          padding: 4rem 2rem;
+          margin: 2rem 0;
+          background: ${elementData.useGradient ? 
+            `linear-gradient(${elementData.gradientDirection || 'to right'}, ${elementData.gradientColor1 || '#1976d2'}, ${elementData.gradientColor2 || '#1565c0'})` : 
+            (elementData.backgroundColor || '#1976d2')
+          };
+          color: ${elementData.textColor || '#ffffff'};
+          border-radius: ${elementData.borderRadius || 12}px;
+        ">
+          ${elementData.title ? `
+            <h2 style="
+              font-size: ${elementData.titleFontSize || 48}px;
+              font-weight: ${elementData.titleFontWeight || 'bold'};
+              margin-bottom: 1rem;
+              color: inherit;
+            ">${elementData.title}</h2>
+          ` : ''}
+          ${elementData.subtitle ? `
+            <p style="
+              font-size: ${elementData.subtitleFontSize || 20}px;
+              margin-bottom: 2rem;
+              opacity: 0.9;
+              max-width: 600px;
+              margin-left: auto;
+              margin-right: auto;
+            ">${elementData.subtitle}</p>
+          ` : ''}
+          <div style="
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+          ">
+            ${elementData.primaryButton ? `
+              <a href="${elementData.primaryButton.url || '#'}" style="
+                display: inline-block;
+                padding: 16px 32px;
+                background: ${elementData.primaryButton.bgColor || '#ffffff'};
+                color: ${elementData.primaryButton.textColor || '#1976d2'};
+                text-decoration: none;
+                border-radius: 8px;
+                font-weight: 600;
+                font-size: 18px;
+                transition: all 0.3s;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+              " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(0,0,0,0.2)'" 
+                 onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'"
+              >${elementData.primaryButton.text || 'Главная кнопка'}</a>
+            ` : ''}
+            ${elementData.secondaryButton ? `
+              <a href="${elementData.secondaryButton.url || '#'}" style="
+                display: inline-block;
+                padding: 16px 32px;
+                background: transparent;
+                color: ${elementData.secondaryButton.textColor || '#ffffff'};
+                text-decoration: none;
+                border: 2px solid ${elementData.secondaryButton.borderColor || '#ffffff'};
+                border-radius: 8px;
+                font-weight: 600;
+                font-size: 18px;
+                transition: all 0.3s;
+              " onmouseover="this.style.backgroundColor='${elementData.secondaryButton.hoverBgColor || 'rgba(255,255,255,0.1)'}'" 
+                 onmouseout="this.style.backgroundColor='transparent'"
+              >${elementData.secondaryButton.text || 'Вторая кнопка'}</a>
+            ` : ''}
+          </div>
+        </div>
+      `;
+
     default:
       return `<div id="${elementId}" class="content-element">Неизвестный тип элемента: ${element.type}</div>`;
   }
