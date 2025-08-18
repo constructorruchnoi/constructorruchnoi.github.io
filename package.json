@@ -44,6 +44,7 @@
     "@tiptap/react": "^2.25.0",
     "@tiptap/starter-kit": "^2.25.0",
     "@visx/visx": "^3.12.0",
+    "@vitejs/plugin-react": "^5.0.0",
     "apexcharts": "^4.7.0",
     "axios": "^1.6.7",
     "browser-image-compression": "^2.0.2",
@@ -54,6 +55,7 @@
     "formik": "^2.4.6",
     "framer-motion": "^12.23.0",
     "jszip": "^3.10.1",
+    "lovable-tagger": "^1.1.9",
     "marked": "^15.0.10",
     "multer": "^1.4.5-lts.1",
     "next": "14.1.0",
@@ -91,6 +93,7 @@
     "swiper": "^11.2.10",
     "uuid": "^11.1.0",
     "victory": "^37.3.6",
+    "vite": "^7.1.2",
     "yup": "^1.6.1",
     "zustand": "^5.0.6"
   }
