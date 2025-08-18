@@ -12,11 +12,9 @@ import { styled } from '@mui/material/styles';
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import dynamic from 'next/dynamic';
-
 // Динамически импортируем компоненты только на клиенте
-const ContactForm = dynamic(() => import('./ContactForm'), { ssr: false });
-const MapIframe = dynamic(() => import('./MapIframe'), { ssr: false });
+const ContactForm = React.lazy(() => import('./ContactForm'));
+const MapIframe = React.lazy(() => import('./MapIframe'));
 
 const MapContainer = styled(Box)(({ theme }) => ({
   width: '100%',
@@ -192,16 +190,18 @@ const ContactSection = React.forwardRef(({
                 variant: dataFormVariant
               }}
             >
-              <ContactForm 
-                customStyles={{
-                  inputBackgroundColor: dataInputBackgroundColor,
-                  inputTextColor: dataInputTextColor,
-                  formBorderColor: dataFormBorderColor,
-                  labelColor: dataLabelColor,
-                  buttonColor: dataButtonColor,
-                  buttonTextColor: dataButtonTextColor
-                }}
-              />
+              <React.Suspense fallback={<div>Загрузка...</div>}>
+                <ContactForm 
+                  customStyles={{
+                    inputBackgroundColor: dataInputBackgroundColor,
+                    inputTextColor: dataInputTextColor,
+                    formBorderColor: dataFormBorderColor,
+                    labelColor: dataLabelColor,
+                    buttonColor: dataButtonColor,
+                    buttonTextColor: dataButtonTextColor
+                  }}
+                />
+              </React.Suspense>
             </StyledPaper>
           </Grid>
 
@@ -265,7 +265,9 @@ const ContactSection = React.forwardRef(({
             </StyledPaper>
 
             <MapContainer>
-              <MapIframe address={dataAddress} />
+              <React.Suspense fallback={<div>Загрузка карты...</div>}>
+                <MapIframe address={dataAddress} />
+              </React.Suspense>
             </MapContainer>
           </Grid>
         </Grid>

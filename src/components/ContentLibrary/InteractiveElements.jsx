@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Paper, TextField, Button, Select, MenuItem, FormControl, InputLabel, Grid, Switch, FormControlLabel, Slider, Chip, Rating, Avatar, Badge, Tooltip, Fab, SpeedDial, SpeedDialIcon, SpeedDialAction, Alert, AlertTitle, LinearProgress, CircularProgress } from '@mui/material';
-import dynamic from 'next/dynamic';
-
 // Динамический импорт ReactPlayer для клиентской стороны
-const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
+const ReactPlayer = React.lazy(() => import('react-player'));
 import { QRCodeSVG } from 'qrcode.react';
 import { SketchPicker } from 'react-color';
 
 // Динамический импорт Confetti для клиентской стороны
-const Confetti = dynamic(() => import('react-confetti'), { ssr: false });
+const Confetti = React.lazy(() => import('react-confetti'));
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { 
   FacebookShareButton, 

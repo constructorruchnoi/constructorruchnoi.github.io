@@ -4,14 +4,9 @@ import { useForm, Controller } from 'react-hook-form';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import ReactSelect from 'react-select';
-import dynamic from 'next/dynamic';
-import "react-datepicker/dist/react-datepicker.css";
-import AnimationWrapper from './AnimationWrapper';
-import AnimationControls from './AnimationControls';
-import EditableElementWrapper from './EditableElementWrapper';
 
 // Динамический импорт DatePicker для клиентской стороны
-const DatePicker = dynamic(() => import('react-datepicker'), { ssr: false });
+const DatePicker = React.lazy(() => import('react-datepicker'));
 
 // Валидационная схема для Formik
 const contactSchema = Yup.object().shape({

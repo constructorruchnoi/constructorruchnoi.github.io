@@ -5,7 +5,7 @@ import PagePreview from '../components/Preview/PagePreview';
 import HeroEditor from '../components/Editor/HeroEditor';
 import { CARD_TYPES } from '../utils/configUtils';
 import AiParser from '../components/AiParser/AiParser';
-import Link from 'next/link';
+
 
 // Очистка localStorage от данных казино
 const clearCasinoData = () => {
@@ -461,14 +461,10 @@ export default function Home() {
             🏗️ Конструктор сайтов
           </Typography>
           <Box sx={{ display: 'flex', gap: 1 }}>
-            <Link href="/" passHref>
-              <Button color="inherit">Главная</Button>
-            </Link>
-            <Link href="/test-image-system" passHref>
-              <Button color="inherit" variant="outlined">
-                🖼️ Тест изображений
-              </Button>
-            </Link>
+            <Button color="inherit">Главная</Button>
+            <Button color="inherit" variant="outlined">
+              🖼️ Тест изображений
+            </Button>
           </Box>
         </Toolbar>
       </AppBar>
