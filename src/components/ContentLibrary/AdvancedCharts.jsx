@@ -13,8 +13,7 @@ import AnimationControls from './AnimationControls';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell, AreaChart, Area, ScatterChart, Scatter, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ComposedChart } from 'recharts';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip as ChartTooltip, Legend as ChartLegend, ArcElement, PointElement, LineElement, RadialLinearScale, Filler } from 'chart.js';
 import { Bar as ChartBar, Doughnut as ChartDoughnut, Polar, Radar as ChartRadar } from 'react-chartjs-2';
-// Динамический импорт ApexCharts для клиентской стороны
-const Chart = React.lazy(() => import('react-apexcharts'));
+import Chart from 'react-apexcharts';
 
 // Регистрация компонентов Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, ChartTooltip, ChartLegend, ArcElement, PointElement, LineElement, RadialLinearScale, Filler);

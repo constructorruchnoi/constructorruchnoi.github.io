@@ -5,8 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import ReactSelect from 'react-select';
 
-// Динамический импорт DatePicker для клиентской стороны
-const DatePicker = React.lazy(() => import('react-datepicker'));
+import DatePicker from 'react-datepicker';
 
 // Валидационная схема для Formik
 const contactSchema = Yup.object().shape({
