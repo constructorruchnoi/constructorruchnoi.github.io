@@ -12,7 +12,7 @@ import AnimationWrapper from './AnimationWrapper';
 import AnimationControls from './AnimationControls';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell, AreaChart, Area, ScatterChart, Scatter, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ComposedChart } from 'recharts';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip as ChartTooltip, Legend as ChartLegend, ArcElement, PointElement, LineElement, RadialLinearScale, Filler } from 'chart.js';
-import { Bar as ChartBar, Doughnut as ChartDoughnut, Polar, Radar as ChartRadar } from 'react-chartjs-2';
+import { Bar as ChartBar, Doughnut as ChartDoughnut, PolarArea as Polar, Radar as ChartRadar } from 'react-chartjs-2';
 import Chart from 'react-apexcharts';
 
 // Регистрация компонентов Chart.js

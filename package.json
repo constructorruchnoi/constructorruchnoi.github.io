@@ -27,6 +27,7 @@
     "@mui/x-data-grid": "^8.7.0",
     "@mui/x-date-pickers": "^8.7.0",
     "@react-google-maps/api": "^2.20.6",
+    "@tailwindcss/postcss": "^4.1.12",
     "@tiptap/extension-color": "^2.25.0",
     "@tiptap/extension-font-family": "^2.25.0",
     "@tiptap/extension-highlight": "^2.25.0",
